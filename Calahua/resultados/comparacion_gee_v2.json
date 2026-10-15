@@ -1,0 +1,55 @@
+{
+ "gee_nativo": {
+  "crs": "EPSG:4326",
+  "res_deg": 0.001,
+  "shape": [
+   285,
+   502
+  ],
+  "nodata_declarado": null,
+  "pix_validos": 48768,
+  "pct_validos": 34.1,
+  "km2_por_clase_nativo": {
+   "alta": 183.4,
+   "media": 180.6,
+   "baja": 181.9
+  }
+ },
+ "km2_malla_comun": {
+  "gee": {
+   "alta": 183.3,
+   "media": 180.5,
+   "baja": 181.7
+  },
+  "python": {
+   "alta": 178.0,
+   "media": 178.0,
+   "baja": 178.0
+  }
+ },
+ "cobertura_km2": {
+  "ambos": 534.0,
+  "solo_python": 0.0,
+  "solo_gee": 11.5
+ },
+ "matriz_confusion_(filas_python_baja,media,alta;_cols_gee)": [
+  [
+   15124,
+   790,
+   0
+  ],
+  [
+   689,
+   14538,
+   687
+  ],
+  [
+   0,
+   605,
+   15309
+  ]
+ ],
+ "acuerdo_pct": 94.2,
+ "kappa": 0.913,
+ "desacuerdo_extremo_pct(alta<->baja)": 0.0
+}

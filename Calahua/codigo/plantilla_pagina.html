@@ -1,0 +1,67 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reto 1 · Infiltración — Santiago y Arteaga (PN Cumbres de Monterrey)</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>body{font-family:system-ui,Segoe UI,Arial;margin:0;color:#222;background:#f6f5f2}header{background:#14452f;color:#fff;padding:22px 32px}header h1{margin:0 0 6px;font-size:26px}header p{margin:4px 0;max-width:1100px;opacity:.92}
+main{max-width:1250px;margin:auto;padding:18px}#map{height:620px;border-radius:8px;border:1px solid #bbb}.card{background:#fff;border-radius:8px;padding:16px 20px;margin:16px 0;box-shadow:0 1px 3px #0002}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}table{border-collapse:collapse;width:100%;font-size:14px}td,th{border-bottom:1px solid #ddd;padding:5px 7px;text-align:right}th:first-child,td:first-child{text-align:left}
+.alta{background:#bd0026;color:#fff}.media{background:#fd8d3c}.baja{background:#ffeda0}.legend{background:#fff;padding:8px 10px;border-radius:6px;font-size:12px;line-height:1.5;box-shadow:0 1px 4px #0004;min-width:200px}
+.sw{display:inline-block;width:14px;height:12px;margin-right:5px;vertical-align:middle}.bar{height:10px;width:190px}.warn{background:#fff6dd;border-left:4px solid #e0a800;padding:8px 12px}@media(max-width:900px){.grid{grid-template-columns:1fr}}</style></head><body>
+<header><h1>Reto 1 · Infiltración — ¿Dónde restaurar suelos en partes altas?</h1>
+<p>Prioridad de restauración de suelos para favorecer la infiltración en la zona montañosa del <b>Parque Nacional Cumbres de Monterrey</b>, porciones de <b>Santiago</b> (N.L.) y <b>Arteaga</b> (Coah.). Las cuencas altas de la Sierra Madre Oriental alimentan los ríos Santa Catarina, Ramos y Pilón, y las presas que abastecen a la Zona Metropolitana de Monterrey, en una región que vivió la crisis hídrica de 2022.</p>
+<p>Índice que combina humedad del suelo, vegetación (NDVI), pendiente, tipo de suelo e incendios. Clases <b>alta / media / baja</b> = terciles calculados sobre Santiago + Arteaga juntos. Haz clic en el mapa para ver los valores medidos.</p></header>
+<main><div id="map"></div>
+<div class="grid" id="cards"></div>
+<div class="card" id="val"><h2>Validación con Google Earth Engine</h2>
+<p>El mismo índice se reprodujo de forma independiente en Google Earth Engine (script <code>gee_santiago_arteaga_v2.js</code>). Usa los polígonos subidos como assets (CONANP + geoBoundaries), las mismas fuentes y fechas, normalización con los percentiles 2–98 de todo el parque, terciles sobre Santiago + Arteaga y la misma malla de 0.001°. La capa <b>"Validación: clases GEE v2"</b> se activa en el control del mapa.</p>
+<div class="grid"><div><h3>Terciles y superficie por clase</h3><table id="tv"></table><small id="tvn"></small></div>
+<div><h3>Matriz de confusión (píxeles ~100 m)</h3><table id="tc"></table><p id="ta"></p></div></div>
+<p id="vexp"></p></div>
+<div class="card"><h2>Método</h2><p>Malla de ~100 m (0.001°). Cada factor se convierte en un sub-índice de 0 a 1, donde 1 = mayor prioridad. Se normaliza con los percentiles 2–98 calculados dentro del parque:</p>
+<ul><li><b>Humedad del suelo</b>: 1 − humedad normalizada (más seco → más prioridad)</li><li><b>Vegetación</b>: 1 − NDVI normalizado (vegetación degradada)</li><li><b>Pendiente</b>: 1 si ≤ 15°, baja lineal hasta 0 a 40° (factibilidad de obras y retención)</li><li><b>Suelo</b>: (arena − arcilla) normalizado (mayor capacidad de infiltración)</li><li><b>Incendios</b>: meses quemados / máximo del parque</li></ul>
+<p>Índice = suma ponderada (pesos: <span id="pesos"></span>). En el mapa interactivo, la consulta al hacer clic usa una malla remuestreada a ~200 m.</p>
+<h2>Fuentes</h2><ul><li>Polígono oficial: CONANP, ANP federales (shp_anp_20260924), PN Cumbres de Monterrey, decreto DOF 17-11-2000</li><li>Municipios: geoBoundaries MEX ADM2 (World Bank / INEGI 2012, CC BY 4.0)</li><li>Relieve: Copernicus DEM GLO-30 (AWS Open Data)</li><li>NDVI: MODIS MOD13Q1 v061, mediana 2023–2024 (Microsoft Planetary Computer)</li><li>Área quemada: MODIS MCD64A1 v061, 2012 a junio de 2025 (Planetary Computer)</li><li>Suelo: SoilGrids 2.0 (ISRIC), arena y arcilla 0–30 cm</li><li>Humedad del suelo: TerraClimate, variable <i>soil</i> (mm), media 2012–2021 (Planetary Computer)</li></ul>
+<h2>Limitaciones</h2><div class="warn"><ul><li>Según CONANP, el parque está solo en Nuevo León. La porción de <b>Arteaga</b> son franjas de ~18 km² en el límite estatal, probablemente un desajuste de los límites municipales.</li><li>Los límites municipales son de <b>2012</b> (geoBoundaries), no el Marco Geoestadístico INEGI vigente.</li><li>TerraClimate es grueso (~4 km) y termina en 2021. MCD64A1 (500 m) no detecta incendios pequeños.</li><li>Los pesos son un supuesto experto, <b>sin calibrar</b>. No incluye geología/karst, lluvia ni tenencia de la tierra.</li><li>Prototipo para priorizar; requiere validación en campo.</li></ul></div></div></main>
+<script>
+const LAYERS=__LAYERS__,B=__BOUNDS__,G=__GRID__,CARDS=__CARDS__,PARK=__PARK__,MUN=__MUN__,W=__W__;
+document.getElementById('pesos').textContent=Object.entries(W).map(([k,v])=>k+' '+Math.round(v*100)+' %').join(', ');
+const map=L.map('map');const topo=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, FAO, NOAA, USGS, &copy; OpenStreetMap contributors, and the GIS User Community'}).addTo(map);
+const sat=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community'});
+const gris=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',{maxZoom:16,attribution:'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, &copy; OpenStreetMap contributors'});
+const calles=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, USGS, &copy; OpenStreetMap contributors'});
+const ov={};LAYERS.forEach(l=>{ov[l.nombre]=L.imageOverlay(l.img,B,{opacity:.85});if(l.show)ov[l.nombre].addTo(map)});
+const pk=L.geoJSON(PARK,{style:{color:'#006400',weight:2.5,fill:false,dashArray:'6 4'}}).addTo(map);
+const mu=L.geoJSON(MUN,{style:{color:'#0047ab',weight:2.5,fill:false},onEachFeature:(f,l)=>l.bindTooltip(f.properties.municipio)}).addTo(map);
+ov['Límite PN Cumbres (CONANP)']=pk;ov['Santiago / Arteaga (porción en el parque)']=mu;
+L.control.layers({'Esri Topográfico':topo,'Esri Satélite':sat,'Esri Gris claro':gris,'Esri Calles':calles},ov,{collapsed:false}).addTo(map);map.fitBounds(B);
+const lg=L.control({position:'bottomleft'});lg.onAdd=()=>{const d=L.DomUtil.create('div','legend');d.id='lg';return d};lg.addTo(map);
+function drawLegend(){let h='<b>Prioridad</b><br><span class="sw alta"></span>Alta <span class="sw media"></span>Media <span class="sw baja"></span>Baja';
+LAYERS.slice(1).forEach(l=>{if(map.hasLayer(ov[l.nombre]))h+=`<hr style="margin:4px 0"><b>${l.nombre}</b><div class="bar" style="background:${l.ramp}"></div><div style="display:flex;justify-content:space-between;width:190px"><span>${l.lo}</span><span>${l.unidad}</span><span>${l.hi}</span></div>`});
+document.getElementById('lg').innerHTML=h}
+map.on('overlayadd overlayremove',drawLegend);drawLegend();
+const CN={1:'Baja',2:'Media',3:'Alta'};
+map.on('click',e=>{const i=Math.floor((G.lat0-e.latlng.lat)/G.res),j=Math.floor((e.latlng.lng-G.lon0)/G.res);
+ if(i<0||j<0||i>=G.nr||j>=G.nc||!G.cls[i][j]){L.popup().setLatLng(e.latlng).setContent('Fuera del área Santiago/Arteaga del parque').openOn(map);return}
+ const v=k=>G[k][i][j]==null?'—':G[k][i][j];
+ const h=`<b>Clase: <span class="sw ${CN[G.cls[i][j]].toLowerCase()}"></span>${CN[G.cls[i][j]]}</b> · Índice ${v('idx')}<table>
+ <tr><th>Factor</th><th>Valor medido</th><th>Sub-índice</th></tr>
+ <tr><td>Humedad suelo</td><td>${v('hum')} mm</td><td>${v('s_hum')}</td></tr><tr><td>NDVI</td><td>${v('ndvi')}</td><td>${v('s_veg')}</td></tr>
+ <tr><td>Pendiente</td><td>${v('pend')}°</td><td>${v('s_pen')}</td></tr><tr><td>Suelo arena/arcilla</td><td>${v('arena')} / ${v('arcilla')} %</td><td>${v('s_sue')}</td></tr>
+ <tr><td>Incendios</td><td>${v('fuego')} meses</td><td>${v('s_inc')}</td></tr></table><small>${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)} · celda ~200 m</small>`;
+ L.popup({maxWidth:340}).setLatLng(e.latlng).setContent(h).openOn(map)});
+const cd=document.getElementById('cards');
+for(const [n,c] of Object.entries(CARDS)){const rows=['alta','media','baja'].map(k=>{const d=c.clases[k];const f=x=>d[x]===undefined?'—':d[x];
+ return `<tr><td class="${k}">${k[0].toUpperCase()+k.slice(1)}</td><td>${d.km2}</td><td>${d.pct}</td><td>${f('indice')}</td><td>${f('humedad')}</td><td>${f('ndvi')}</td><td>${f('pendiente')}</td><td>${f('arena')} / ${f('arcilla')}</td><td>${f('fuego')}</td></tr>`}).join('');
+ cd.insertAdjacentHTML('beforeend',`<div class="card"><h2>${n}</h2><p>Superficie dentro del parque: <b>${c.km2} km²</b>${n=='Arteaga'?' <i>(franjas en el límite estatal; ver limitaciones)</i>':''}</p>
+ <table><tr><th>Clase</th><th>km²</th><th>%</th><th>Índice</th><th>Humedad (mm)</th><th>NDVI</th><th>Pend. (°)</th><th>Arena/arcilla (%)</th><th>Incendios (meses)</th></tr>${rows}</table><small>Valores medios por clase.</small></div>`)}
+
+const V=__VAL__,C=V.cmp,M=C["matriz_confusion_(filas_python_baja,media,alta;_cols_gee)"];
+document.getElementById('tv').innerHTML=`<tr><th></th><th>Python</th><th>GEE v2</th></tr>
+<tr><td>Tercil 33 % (baja/media)</td><td>${V.py_terciles[0]}</td><td>${V.gee_terciles[0]}</td></tr>
+<tr><td>Tercil 67 % (media/alta)</td><td>${V.py_terciles[1]}</td><td>${V.gee_terciles[1]}</td></tr>`+
+['alta','media','baja'].map(k=>`<tr><td class="${k}">${k[0].toUpperCase()+k.slice(1)} (km²)</td><td>${C.km2_malla_comun.python[k]}</td><td>${V.gee_km2_consola[k]}</td></tr>`).join('');
+document.getElementById('tvn').textContent='km² de GEE: los reporta la consola de GEE (ee.Image.pixelArea). km² de Python: conteo de píxeles en la malla de 0.001°.';
+const L3=['Baja','Media','Alta'];
+document.getElementById('tc').innerHTML='<tr><th>Python ↓ / GEE →</th>'+L3.map(x=>`<th>${x}</th>`).join('')+'</tr>'+M.map((r,i)=>`<tr><td><b>${L3[i]}</b></td>`+r.map((v,j)=>`<td style="${i==j?'background:#e5f5e0;font-weight:bold':''}">${v.toLocaleString('es-MX')}</td>`).join('')+'</tr>').join('');
+document.getElementById('ta').innerHTML=`<b>Acuerdo: ${C.acuerdo_pct} %</b> · <b>Kappa de Cohen: ${C.kappa}</b> · Alta↔Baja: ${C["desacuerdo_extremo_pct(alta<->baja)"]} % · Área común: ${C.cobertura_km2.ambos} km² (solo GEE: ${C.cobertura_km2.solo_gee} km²; solo Python: ${C.cobertura_km2.solo_python} km²)`;
+document.getElementById('vexp').innerHTML=`Con los mismos polígonos y la misma malla, las dos implementaciones coinciden en ${C.acuerdo_pct} % de los píxeles (kappa ${C.kappa}, acuerdo casi perfecto). Ningún píxel pasa de alta a baja ni de baja a alta: todas las diferencias son de una sola clase y se concentran en los bordes entre terciles. Se deben a pequeñas diferencias de procesamiento: cálculo de pendiente (ee.Terrain vs gradiente en Python), remuestreo de MODIS/SoilGrids/TerraClimate y la forma de recortar el polígono. GEE incluye ${C.cobertura_km2.solo_gee} km² extra de píxeles de borde. La versión anterior (v1: WDPA + GAUL, escala 500 m) solo coincidía en 79.6 % (kappa 0.695), lo que confirma que la diferencia venía sobre todo de los polígonos y de la escala.`;
+</script></body></html>

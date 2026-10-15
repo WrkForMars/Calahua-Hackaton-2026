@@ -1,0 +1,78 @@
+{
+ "Arteaga": {
+  "km2": 18.1,
+  "clases": {
+   "alta": {
+    "km2": 13.0,
+    "pct": 71.9,
+    "humedad": 37.61,
+    "ndvi": 0.537,
+    "pendiente": 19.41,
+    "arena": 41.42,
+    "arcilla": 30.51,
+    "fuego": 0.41,
+    "indice": 0.618
+   },
+   "media": {
+    "km2": 5.0,
+    "pct": 27.6,
+    "humedad": 38.35,
+    "ndvi": 0.665,
+    "pendiente": 28.82,
+    "arena": 41.65,
+    "arcilla": 30.63,
+    "fuego": 0.0,
+    "indice": 0.46
+   },
+   "baja": {
+    "km2": 0.1,
+    "pct": 0.5,
+    "humedad": 38.05,
+    "ndvi": 0.686,
+    "pendiente": 41.14,
+    "arena": 40.0,
+    "arcilla": 31.46,
+    "fuego": 0.0,
+    "indice": 0.348
+   }
+  }
+ },
+ "Santiago": {
+  "km2": 515.9,
+  "clases": {
+   "alta": {
+    "km2": 165.0,
+    "pct": 32.0,
+    "humedad": 40.18,
+    "ndvi": 0.514,
+    "pendiente": 20.62,
+    "arena": 39.34,
+    "arcilla": 30.74,
+    "fuego": 0.67,
+    "indice": 0.606
+   },
+   "media": {
+    "km2": 173.0,
+    "pct": 33.5,
+    "humedad": 41.81,
+    "ndvi": 0.634,
+    "pendiente": 27.16,
+    "arena": 37.09,
+    "arcilla": 32.2,
+    "fuego": 0.35,
+    "indice": 0.436
+   },
+   "baja": {
+    "km2": 177.9,
+    "pct": 34.5,
+    "humedad": 47.85,
+    "ndvi": 0.759,
+    "pendiente": 28.64,
+    "arena": 33.08,
+    "arcilla": 34.64,
+    "fuego": 0.1,
+    "indice": 0.253
+   }
+  }
+ }
+}

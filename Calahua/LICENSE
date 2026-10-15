@@ -1,0 +1,32 @@
+MIT License
+
+Copyright (c) 2026 Equipo: ____
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+NOTA SOBRE DATOS: la licencia MIT aplica solo al código (carpetas codigo/ y gee/*.js).
+Los datos y productos derivados conservan la licencia de su fuente:
+- CONANP, Áreas Naturales Protegidas federales (datos abiertos del Gobierno de México, Libre uso MX).
+- geoBoundaries MEX ADM2 (World Bank / INEGI 2012): CC BY 4.0.
+- Copernicus DEM GLO-30: licencia Copernicus DEM (uso libre con atribución, © DLR/Airbus, ESA).
+- MODIS MOD13Q1 / MCD64A1 (NASA LP DAAC): sin restricciones de uso.
+- SoilGrids 2.0 (ISRIC): CC BY 4.0.
+- TerraClimate (Abatzoglou et al. 2018, Univ. of Idaho): CC0 / dominio público.
+Los resultados en resultados/ se distribuyen bajo CC BY 4.0, con atribución a las fuentes anteriores.

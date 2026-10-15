@@ -1,0 +1,203 @@
+{
+  "poligono": "CONANP shp_anp_20260924 – PN Cumbres de Monterrey (NUM_ANP 144, decreto DOF 2000-11-17, 177,395.95 ha)",
+  "capas_usadas": [
+    "vegetacion",
+    "humedad",
+    "pendiente",
+    "suelo",
+    "incendios"
+  ],
+  "pesos_normalizados": {
+    "vegetacion": 0.25,
+    "humedad": 0.2,
+    "pendiente": 0.2,
+    "suelo": 0.2,
+    "incendios": 0.15
+  },
+  "parque": {
+    "km2_rasterizado": 1780.9,
+    "umbrales": [
+      0.36822535269319495,
+      0.5209946959984196
+    ],
+    "clases": {
+      "alta": {
+        "km2": 593.6,
+        "pct": 33.3
+      },
+      "media": {
+        "km2": 593.7,
+        "pct": 33.3
+      },
+      "baja": {
+        "km2": 593.6,
+        "pct": 33.3
+      }
+    }
+  },
+  "santiago_arteaga": {
+    "km2_rasterizado": 534.0,
+    "umbrales": [
+      0.36530031030032795,
+      0.5079892783752087
+    ],
+    "clases": {
+      "alta": {
+        "km2": 178.0,
+        "pct": 33.3
+      },
+      "media": {
+        "km2": 178.0,
+        "pct": 33.3
+      },
+      "baja": {
+        "km2": 178.0,
+        "pct": 33.3
+      }
+    }
+  },
+  "por_municipio_(terciles_del_parque)": {
+    "Ramos Arizpe": {
+      "km2": 12.3,
+      "indice_medio": 0.514,
+      "km2_alta": 4.9,
+      "pct_alta": 39.7
+    },
+    "Arteaga": {
+      "km2": 18.1,
+      "indice_medio": 0.573,
+      "km2_alta": 12.3,
+      "pct_alta": 68.0
+    },
+    "Santa Catarina": {
+      "km2": 761.8,
+      "indice_medio": 0.527,
+      "km2_alta": 388.8,
+      "pct_alta": 51.0
+    },
+    "Santiago": {
+      "km2": 515.9,
+      "indice_medio": 0.427,
+      "km2_alta": 150.3,
+      "pct_alta": 29.1
+    },
+    "Rayones": {
+      "km2": 78.5,
+      "indice_medio": 0.463,
+      "km2_alta": 21.4,
+      "pct_alta": 27.3
+    },
+    "Montemorelos": {
+      "km2": 263.0,
+      "indice_medio": 0.292,
+      "km2_alta": 8.4,
+      "pct_alta": 3.2
+    },
+    "San Pedro Garza García": {
+      "km2": 15.2,
+      "indice_medio": 0.343,
+      "km2_alta": 0.5,
+      "pct_alta": 3.1
+    },
+    "Allende": {
+      "km2": 44.0,
+      "indice_medio": 0.198,
+      "km2_alta": 0.0,
+      "pct_alta": 0.0
+    },
+    "García": {
+      "km2": 7.0,
+      "indice_medio": 0.708,
+      "km2_alta": 7.0,
+      "pct_alta": 100.0
+    },
+    "Monterrey": {
+      "km2": 65.1,
+      "indice_medio": 0.244,
+      "km2_alta": 0.0,
+      "pct_alta": 0.0
+    }
+  },
+  "top_subzonas_santiago_arteaga_(celdas_5km)": [
+    {
+      "lon": -100.425,
+      "lat": 25.325,
+      "pct_alta": 99.4,
+      "indice_medio": 0.66,
+      "elev_media_m": 2655,
+      "localidad_cercana": "Potrero Redondo (~6 km)"
+    },
+    {
+      "lon": -100.425,
+      "lat": 25.375,
+      "pct_alta": 98.4,
+      "indice_medio": 0.681,
+      "elev_media_m": 2204,
+      "localidad_cercana": "Matacanes / Potrero Redondo (~5 km)"
+    },
+    {
+      "lon": -100.375,
+      "lat": 25.325,
+      "pct_alta": 89.6,
+      "indice_medio": 0.587,
+      "elev_media_m": 2637,
+      "localidad_cercana": "Potrero Redondo (~1 km)"
+    },
+    {
+      "lon": -100.375,
+      "lat": 25.375,
+      "pct_alta": 85.6,
+      "indice_medio": 0.591,
+      "elev_media_m": 2063,
+      "localidad_cercana": "Matacanes / Potrero Redondo (~2 km)"
+    },
+    {
+      "lon": -100.275,
+      "lat": 25.325,
+      "pct_alta": 58.7,
+      "indice_medio": 0.522,
+      "elev_media_m": 2148,
+      "localidad_cercana": "Laguna de Sánchez (~3 km)"
+    },
+    {
+      "lon": -100.425,
+      "lat": 25.425,
+      "pct_alta": 53.7,
+      "indice_medio": 0.514,
+      "elev_media_m": 2400,
+      "localidad_cercana": "Matacanes / Potrero Redondo (~9 km)"
+    },
+    {
+      "lon": -100.325,
+      "lat": 25.375,
+      "pct_alta": 49.2,
+      "indice_medio": 0.497,
+      "elev_media_m": 1953,
+      "localidad_cercana": "Matacanes / Potrero Redondo (~6 km)"
+    },
+    {
+      "lon": -100.275,
+      "lat": 25.375,
+      "pct_alta": 35.0,
+      "indice_medio": 0.471,
+      "elev_media_m": 1765,
+      "localidad_cercana": "Laguna de Sánchez (~3 km)"
+    },
+    {
+      "lon": -100.475,
+      "lat": 25.425,
+      "pct_alta": 25.7,
+      "indice_medio": 0.463,
+      "elev_media_m": 2473,
+      "localidad_cercana": "Matacanes / Potrero Redondo (~12 km)"
+    },
+    {
+      "lon": -100.225,
+      "lat": 25.325,
+      "pct_alta": 25.2,
+      "indice_medio": 0.45,
+      "elev_media_m": 1976,
+      "localidad_cercana": "San José de las Boquillas (~2 km)"
+    }
+  ]
+}
